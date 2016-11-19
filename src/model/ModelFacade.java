@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * 
+ * @author Sander Willems
+ *
+ */
+
 public class ModelFacade {
 
     private Game game;
