@@ -8,6 +8,7 @@ public class Player {
 	public Player(String name) {
 		if(name.equals(null) || name.trim().isEmpty()) throw new IllegalArgumentException("Name is invalid");
 		this.name = name;
+		board = new Board(this);
 	}
 	
 	public String getName() {

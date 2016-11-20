@@ -2,39 +2,23 @@ package domain.model;
 
 import domain.model.state.CellState;
 
-/**
- * 
- * @author Sander Willems
- *
- */
-
 public class ModelFacade {
 
     private Game game;
 
-    public ModelFacade(Game game) {
-        this.setGame(game);
+    public ModelFacade() {
+        this.game = new Game();
     }
-
-    public Game getGame() {
-        return this.game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
 
     public void addPlayer(String name) {
-        this.getGame().addPlayer(name);
+        game.addPlayer(name);
     }
 
-
-    public Player[] getPlayers() {
-        return this.getGame().getPlayers();
+    public Player getPlayer(String name) {
+        return game.getPlayer(name);
     }
 
-    public void applyShip(Ship ship, Player player) throws Exception {
+    public void applyShip(Ship ship, Player player) {
         player.getBoard().applyShip(ship);
     }
 
