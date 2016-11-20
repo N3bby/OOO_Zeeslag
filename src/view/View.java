@@ -16,4 +16,6 @@ public abstract class View {
 
     public abstract void start();
 
+    public abstract void showException(Exception e);
+
 }

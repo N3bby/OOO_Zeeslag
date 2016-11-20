@@ -1,13 +1,18 @@
 package view;
 
 import view.controller.Controller;
+import view.controller.PlayerBoardController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerBoardPanel extends JPanel {
 
     private JLabel lblPlayerName;
+    private List<BoardCell> boardCells = new ArrayList<>();
+    private PlayerBoardController boardController;
 
     public PlayerBoardPanel(Controller controller, Dimension buttonPanelSize) {
         init(controller, buttonPanelSize);
@@ -25,13 +30,17 @@ public class PlayerBoardPanel extends JPanel {
         buttonPanel.setPreferredSize(buttonPanelSize);
         buttonPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
+        boardController = new PlayerBoardController(controller.getView(), controller.getModel());
+
         //Add all the buttons
-        for (int x = 0; x < 10; x++) {
-            for(int y = 0; y < 10 ; y++) {
-                JButton button = new JButton();
-                button.setBackground(Color.white);
-                button.setOpaque(true);
-                buttonPanel.add(button, y, x); //First row, then column
+        for (int y = 0; y < 10; y++) {
+            for(int x = 0; x < 10 ; x++) {
+                BoardCell boardCell = new BoardCell(this, x, y);
+                boardCell.setBackground(Color.white);
+                boardCell.setOpaque(true);
+                boardCell.addActionListener(boardController);
+                buttonPanel.add(boardCell);
+                boardCells.add(boardCell);
             }
         }
 
@@ -42,6 +51,18 @@ public class PlayerBoardPanel extends JPanel {
 
     public void setPlayerName(String name) {
         lblPlayerName.setText(name);
+        boardController.addToBoardObservable(name);
     }
 
+    public String getPlayerName() {
+        return lblPlayerName.getText();
+    }
+
+    public List<BoardCell> getBoardCells() {
+        return boardCells;
+    }
+
+    public PlayerBoardController getBoardController() {
+        return boardController;
+    }
 }

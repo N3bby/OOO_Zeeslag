@@ -13,11 +13,11 @@ public abstract class ControllerCommon {
         this.model = model;
     }
 
-    protected View getView() {
+    public View getView() {
         return view;
     }
 
-    protected ModelFacade getModel() {
+    public ModelFacade getModel() {
         return model;
     }
 
