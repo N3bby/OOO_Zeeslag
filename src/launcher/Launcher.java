@@ -1,5 +1,6 @@
 package launcher;
 
+import model.ModelFacade;
 import view.GameView;
 import view.controller.Controller;
 
@@ -7,12 +8,11 @@ public class Launcher {
 
     public static void main(String[] args) {
 
-        new GameView(new Controller() {
-            @Override
-            public int hashCode() {
-                return super.hashCode();
-            }
-        }).start();
+        GameView gameView = new GameView();
+        Game game = new Game();
+        ModelFacade modelFacade = new ModelFacade(game);
+        Controller controller = new Controller(gameView, modelFacade);
+        controller.startView();
 
     }
 

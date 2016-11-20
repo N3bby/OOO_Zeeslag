@@ -5,18 +5,21 @@ import view.controller.Controller;
 import javax.swing.*;
 import java.awt.*;
 
-public class PlayerBoardPanelFactory extends View {
+public class PlayerBoardPanel extends JPanel {
 
-    public PlayerBoardPanelFactory(Controller controller) {
-        super(controller);
+    private JLabel lblPlayerName;
+
+    public PlayerBoardPanel(Controller controller, Dimension buttonPanelSize) {
+        init(controller, buttonPanelSize);
     }
 
-    protected JPanel getPanel(String name, Dimension buttonPanelSize) {
+    private void init(Controller controller, Dimension buttonPanelSize) {
 
-        JPanel panel = new JPanel(new BorderLayout(0,5));
+        this.setLayout(new BorderLayout(0,5));
 
         //Add name to main panel
-        panel.add(new JLabel(name + ":"), BorderLayout.NORTH);
+        lblPlayerName = new JLabel("?");
+        this.add(lblPlayerName, BorderLayout.NORTH);
 
         JPanel buttonPanel = new JPanel(new GridLayout(10, 10));
         buttonPanel.setPreferredSize(buttonPanelSize);
@@ -33,11 +36,12 @@ public class PlayerBoardPanelFactory extends View {
         }
 
         //Add buttonPanel to main panel
-        panel.add(buttonPanel, BorderLayout.CENTER);
+        this.add(buttonPanel, BorderLayout.CENTER);
 
-        //Return main panel
-        return panel;
+    }
 
+    public void setPlayerName(String name) {
+        lblPlayerName.setText(name);
     }
 
 }

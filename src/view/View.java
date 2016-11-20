@@ -6,10 +6,6 @@ public abstract class View {
 
     private Controller controller;
 
-    public View(Controller controller) {
-        this.controller = controller;
-    }
-
     protected Controller getController() {
         return controller;
     }
@@ -17,5 +13,7 @@ public abstract class View {
     public void setController(Controller controller) {
         this.controller = controller;
     }
+
+    public abstract void start();
 
 }
