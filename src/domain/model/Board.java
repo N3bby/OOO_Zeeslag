@@ -4,51 +4,64 @@ import domain.model.state.CellState;
 import domain.model.state.EmptyCellState;
 import domain.model.state.ShipCellState;
 
-//Deni Askhabov
+import java.util.ArrayList;
+import java.util.List;
 
-public class Board {
-	
+public class Board implements BoardObservable {
+
+    private final int WIDTH_HEIGHT = 10;
+
 	private CellState[][] cells;
-	private BoardObserver[] boardObservers;
-	
-	public Board() {
-		cells = new CellState[getWidth()][getHeight()];
-		for (int i = 0; i < getWidth(); i++) {
-			for (int j = 0; i < getHeight(); j++) {
+    private Player player;
+
+	private List<BoardObserver> boardObservers = new ArrayList<>();
+
+    public Board(Player player) {
+        this.player = player;
+        cells = new CellState[WIDTH_HEIGHT][WIDTH_HEIGHT];
+		for (int i = 0; i < WIDTH_HEIGHT; i++) {
+			for (int j = 0; j < WIDTH_HEIGHT; j++) {
 				cells[i][j] = new EmptyCellState();
 			}
 		}
 	}
-	
-	public int getWidth() {
-		return 10;
-	}
-	
-	public int getHeight() {
-		return 10;
-	}
-	
+
 	public CellState[][] getCells() {
 		return cells;
 	}
 	
-	public void applyShip(Ship ship) throws Exception {
-		if(ship.getOrientation() == Orientation.VERTICAL) {
-			for (int i = ship.getY(); i < ship.getLength(); i++) {
-				if(cells[ship.getX()][i].equals(EmptyCellState.class)) {
-					cells[ship.getX()][i] = new ShipCellState();
-				}
-				else throw new Exception("There is already something here");
-			}
+	public void applyShip(Ship ship) {
+        System.out.println(ship);
+        if(ship.getOrientation() == Orientation.VERTICAL) {
+			for(int i = ship.getY(); i < ship.getY() + ship.getLength() && i < WIDTH_HEIGHT; i++) {
+                cells[i][ship.getX()] = new ShipCellState();
+            }
 		}
 		else {
-			for (int i = ship.getX(); i < ship.getLength(); i++) {
-				if(cells[ship.getY()][i].equals(EmptyCellState.class)) {
-					cells[ship.getY()][i] = new ShipCellState();
-				}
-				else throw new Exception("There is already something here");
-			}
+            for(int i = ship.getX(); i < ship.getX() + ship.getLength() && i < WIDTH_HEIGHT; i++) {
+                cells[ship.getY()][i] = new ShipCellState();
+            }
 		}
+		notifyBoardChanged();
 	}
-	
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    @Override
+	public void addObserver(BoardObserver o) {
+		boardObservers.add(o);
+	}
+
+	@Override
+	public void removeObserver(BoardObserver o) {
+		boardObservers.remove(o);
+	}
+
+	@Override
+	public void notifyBoardChanged() {
+        boardObservers.forEach(o -> o.boardChanged(this));
+	}
+
 }

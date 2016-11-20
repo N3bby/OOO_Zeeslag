@@ -1,7 +1,5 @@
 package domain.model;
 
-//Deni Askhabov
-
 public class Ship {
 
 	private String name;
@@ -32,7 +30,7 @@ public class Ship {
 	}
 
 	public void setLength(int length) {
-		if(length > 1) throw new IllegalArgumentException();
+		if(length < 1) throw new IllegalArgumentException();
 		this.length = length;
 	}
 
@@ -41,7 +39,7 @@ public class Ship {
 	}
 
 	public void setX(int x) {
-		if(x > 1) throw new IllegalArgumentException();
+		if(x < 0 || x > 10) throw new IllegalArgumentException();
 		this.x = x;
 	}
 
@@ -50,7 +48,7 @@ public class Ship {
 	}
 
 	public void setY(int y) {
-		if(y > 1) throw new IllegalArgumentException();
+		if(y < 0 || y > 10) throw new IllegalArgumentException();
 		this.y = y;
 	}
 
@@ -62,5 +60,13 @@ public class Ship {
 		if(orientation == null) throw new IllegalArgumentException();
 		this.orientation = orientation;
 	}
-	
+
+    @Override
+    public String toString() {
+        return "Ship{" +
+                "length=" + length +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }
