@@ -1,4 +1,6 @@
-package model;
+package domain.model;
+
+import domain.model.state.CellState;
 
 /**
  * 
@@ -32,8 +34,8 @@ public class ModelFacade {
         return this.getGame().getPlayers();
     }
 
-    public void applyShip(Ship ship, Player player) {
-        player.getBoard.applyShip(ship);
+    public void applyShip(Ship ship, Player player) throws Exception {
+        player.getBoard().applyShip(ship);
     }
 
     public Ship getShip(ShipTemplate type, int x, int y, Orientation orientation) {

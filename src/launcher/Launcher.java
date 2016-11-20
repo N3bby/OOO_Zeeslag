@@ -1,6 +1,7 @@
 package launcher;
 
-import model.ModelFacade;
+import domain.model.Game;
+import domain.model.ModelFacade;
 import view.GameView;
 import view.controller.Controller;
 

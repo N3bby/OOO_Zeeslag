@@ -1,4 +1,4 @@
-package model;
+package domain.model;
 
 /**
  * 
@@ -12,17 +12,17 @@ public class ShipFactory {
 	public ShipFactory(){
 	}
 	
-	public Ship createShipFromTemplate(ShipTemplate type, int x, int y
-			,Orientation orientation){
+	public Ship createShipFromTemplate(ShipTemplate type, int x, int y ,Orientation orientation){
 		
 		String name = type.name();
+		int length = type.getNbrOfCells();
 		
 		name = name.toLowerCase();
 		name = name.replace('_', ' ');
 		name = this.capitalize(name);
 		
 		
-		Ship ship = new Ship(name, x, y, orientation);
+		Ship ship = new Ship(name, length, x, y, orientation);
 		
 		return ship;
 		

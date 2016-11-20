@@ -1,6 +1,6 @@
 package view.controller;
 
-import model.ModelFacade;
+import domain.model.ModelFacade;
 import view.View;
 
 public abstract class ControllerCommon {
