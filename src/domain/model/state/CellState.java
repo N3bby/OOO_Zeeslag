@@ -4,6 +4,6 @@ package domain.model.state;
 
 public interface CellState {
 
-	public void hit();
+	void hit();
 	
 }

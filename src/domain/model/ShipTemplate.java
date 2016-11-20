@@ -10,7 +10,7 @@ public enum ShipTemplate {
 	
 	private int nbrOfCells;
 	
-	private ShipTemplate(int nbrOfCells){
+	ShipTemplate(int nbrOfCells){
 		this.nbrOfCells = nbrOfCells;
 	}
 	

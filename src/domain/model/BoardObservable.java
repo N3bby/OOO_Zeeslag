@@ -9,10 +9,10 @@ package domain.model;
 
 public interface BoardObservable {
 	
-	public void addObserver(BoardObserver o);
+	void addObserver(BoardObserver o);
 	
-	public void removeObserver(BoardObserver o);
+	void removeObserver(BoardObserver o);
 	
-	public void notifyBoardChanged();
+	void notifyBoardChanged();
 
 }

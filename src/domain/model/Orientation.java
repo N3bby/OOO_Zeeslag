@@ -5,6 +5,6 @@ package domain.model;
 public enum Orientation {
 
 	 HORIZONTAL,
-	 VERTICAL;
-	
+	 VERTICAL
+
 }
