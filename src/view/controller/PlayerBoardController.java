@@ -44,7 +44,9 @@ public class PlayerBoardController extends ControllerCommon implements ActionLis
         Ship ship = getModel().getShip(template, boardCell.getCellX(), boardCell.getCellY(), orientation);
         Player player = getModel().getPlayer(boardCell.getPlayerBoardPanel().getPlayerName());
 
-        getModel().applyShip(ship, player);
+        try {
+            getModel().applyShip(ship, player);
+        } catch (Exception ignored) { }
 
     }
 
