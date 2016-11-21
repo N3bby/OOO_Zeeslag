@@ -2,36 +2,28 @@ package domain.model;
 
 public class Ship {
 
-	private String name;
-	private int length;
+    private ShipTemplate shipTemplate;
 	private int x;
 	private int y;
 	private Orientation orientation;
 	
-	public Ship(String name, int length, int x, int y, Orientation orientation) {
-		setName(name);
-		setLength(length);
-		setX(x);
+	public Ship(ShipTemplate shipTemplate, int x, int y, Orientation orientation) {
+		this.shipTemplate = shipTemplate;
+        setX(x);
 		setY(y);
 		setOrientation(orientation);
 	}
-	
-	public String getName() {
-		return name;
-	}
 
-	public void setName(String name) {
-		if(name.equals(null) || name.trim().isEmpty()) throw new IllegalArgumentException();
-		this.name = name;
+    public ShipTemplate getShipTemplate() {
+        return shipTemplate;
+    }
+
+    public String getName() {
+		return shipTemplate.formattedName();
 	}
 
 	public int getLength() {
-		return length;
-	}
-
-	public void setLength(int length) {
-		if(length < 1) throw new IllegalArgumentException();
-		this.length = length;
+		return shipTemplate.getNbrOfCells();
 	}
 
 	public int getX() {
@@ -61,12 +53,4 @@ public class Ship {
 		this.orientation = orientation;
 	}
 
-    @Override
-    public String toString() {
-        return "Ship{" +
-                "length=" + length +
-                ", x=" + x +
-                ", y=" + y +
-                '}';
-    }
 }

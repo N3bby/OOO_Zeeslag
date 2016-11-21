@@ -27,7 +27,7 @@ public class Controller extends ControllerCommon {
         Map<String, String> result = new HashMap<>();
 
         for (ShipTemplate template : ShipTemplate.values()) {
-            result.put(template.toString(), ShipTemplate.formattedName(template) + " (" + template.getNbrOfCells() + ")");
+            result.put(template.toString(), template.formattedName() + " (" + template.getNbrOfCells() + ")");
         }
         return result;
 
