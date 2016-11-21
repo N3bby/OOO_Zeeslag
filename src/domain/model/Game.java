@@ -4,11 +4,13 @@ public class Game {
 
     private Player[] players = new Player[2];
 
-    public void addPlayer(String player) {
+    public void addPlayer(String name, boolean isAi) {
+        Player player = new Player(name);
+        if(isAi) player = new AiPlayer(name);
         if (players[0] == null) {
-            players[0] = new Player(player);
+            players[0] = player;
         } else if (players[1] == null) {
-            players[1] = new Player(player);
+            players[1] = player;
         } else {
             throw new IndexOutOfBoundsException("There are aleady 2 players");
         }

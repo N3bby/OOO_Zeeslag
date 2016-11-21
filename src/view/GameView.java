@@ -27,8 +27,8 @@ public class GameView extends View {
         String p2Name = "Computer";
 
         //Add players to game
-        getController().addPlayer(p1Name);
-        getController().addPlayer(p2Name);
+        getController().addPlayer(p1Name, false);
+        getController().addPlayer(p2Name, true);
 
         //Set board names
         p1Board.setPlayerName(p1Name);
@@ -41,6 +41,8 @@ public class GameView extends View {
 
         //Set it so p1 can place stuff
         p1Board.getBoardController().setState(PlayerBoardController.PlayerBoardState.PLACE);
+
+        getController().placeRandomShipsIfAi(p2Name);
 
     }
 

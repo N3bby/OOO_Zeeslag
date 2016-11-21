@@ -10,8 +10,8 @@ public class ModelFacade {
         this.game = new Game();
     }
 
-    public void addPlayer(String name) {
-        game.addPlayer(name);
+    public void addPlayer(String name, boolean isAi) {
+        game.addPlayer(name, isAi);
     }
 
     public Player getPlayer(String name) {

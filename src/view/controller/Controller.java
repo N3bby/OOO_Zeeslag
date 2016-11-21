@@ -1,10 +1,6 @@
 package view.controller;
 
-import domain.model.BoardObserver;
-import domain.model.ModelFacade;
-import domain.model.Orientation;
-import domain.model.ShipTemplate;
-import view.PlayerBoardPanel;
+import domain.model.*;
 import view.View;
 
 import java.util.ArrayList;
@@ -45,11 +41,17 @@ public class Controller extends ControllerCommon {
 
     }
 
-    public void addPlayer(String name) {
-        getModel().addPlayer(name);
+    public void addPlayer(String name, boolean isAi) {
+        getModel().addPlayer(name, isAi);
     }
 
     public void addBoardObserver(String playerName, BoardObserver boardObserver) {
         getModel().getPlayer(playerName).getBoard().addObserver(boardObserver);
     }
+
+    public void placeRandomShipsIfAi(String name) {
+        Player player = getModel().getPlayer(name);
+        if(player instanceof AiPlayer) ((AiPlayer) player).placeRandomShips();
+    }
+
 }
