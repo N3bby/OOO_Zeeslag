@@ -1,7 +1,10 @@
 package domain.model;
 
-public class Game {
+import domain.model.state.game.GameState;
 
+public class Game {
+	
+	private GameState gameState;
     private Player[] players = new Player[2];
 
     public void addPlayer(String name, boolean isAi) {

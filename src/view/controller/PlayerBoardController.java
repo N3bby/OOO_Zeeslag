@@ -1,9 +1,9 @@
 package view.controller;
 
 import domain.model.*;
-import domain.model.state.CellState;
-import domain.model.state.EmptyCellState;
-import domain.model.state.ShipCellState;
+import domain.model.state.cell.CellState;
+import domain.model.state.cell.EmptyCellState;
+import domain.model.state.cell.ShipCellState;
 import view.BoardCell;
 import view.GameView;
 import view.PlayerBoardPanel;

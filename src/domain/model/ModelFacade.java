@@ -1,6 +1,6 @@
 package domain.model;
 
-import domain.model.state.CellState;
+import domain.model.state.cell.CellState;
 
 public class ModelFacade {
 

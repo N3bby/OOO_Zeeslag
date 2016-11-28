@@ -1,11 +1,11 @@
 package domain.model;
 
-import domain.model.state.CellState;
-import domain.model.state.EmptyCellState;
-import domain.model.state.ShipCellState;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import domain.model.state.cell.CellState;
+import domain.model.state.cell.EmptyCellState;
+import domain.model.state.cell.ShipCellState;
 
 public class Board implements BoardObservable {
 
