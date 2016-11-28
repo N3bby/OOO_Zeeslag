@@ -1,6 +1,7 @@
 package domain.model;
 
 import domain.model.state.cell.CellState;
+import domain.model.state.game.GameState;
 
 public class ModelFacade {
 
@@ -16,6 +17,10 @@ public class ModelFacade {
 
     public Player getPlayer(String name) {
         return game.getPlayer(name);
+    }
+    
+    public Player[] getPlayers() {
+        return game.getPlayers();
     }
 
     public void applyShip(Ship ship, Player player) {
@@ -37,5 +42,9 @@ public class ModelFacade {
     public void nextTurn() {
         game.nextTurn();
     }
+
+	public GameState getGameState() {
+		return game.getGameState();
+	}
 
 }

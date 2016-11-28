@@ -82,6 +82,10 @@ public class ShipPlacementPanel extends JPanel {
         startButton.setEnabled(false);
         contentPanel.add(startButton);
     }
+    
+    public JButton getStartButton() {
+    	return startButton;
+    }
 
     public String getSelectedShipTemplateName() {
         for (Map.Entry<String, String> entry : availableShips.entrySet()) {

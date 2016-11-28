@@ -1,12 +1,13 @@
 package domain.model;
 
 import domain.model.state.game.GameState;
+import domain.model.state.game.NewGameState;
 
 import java.util.Arrays;
 
 public class Game {
 
-	private GameState gameState;
+	private GameState gameState = new NewGameState();
     private Player[] players = new Player[2];
     private int currentTurn = 0;
 
@@ -30,6 +31,10 @@ public class Game {
         }
         throw new RuntimeException("No player with name '" + name + "' found!");
     }
+    
+    public Player[] getPlayers() {
+    	return Arrays.copyOf(players, 2);
+    }
 
     public Player getCurrentTurnPlayer() {
         return players[currentTurn];
@@ -43,6 +48,10 @@ public class Game {
         	currentTurn = 0;
         }
         Arrays.stream(players).forEach(p -> p.getBoard().notifyBoardChanged());
+    }
+    
+    public GameState getGameState() {
+    	return gameState;
     }
 
 }

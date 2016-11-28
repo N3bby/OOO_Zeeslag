@@ -5,15 +5,17 @@ import domain.model.state.cell.CellState;
 import domain.model.state.cell.EmptyCellState;
 import domain.model.state.cell.HiddenCellState;
 import domain.model.state.cell.ShipCellState;
+import domain.model.state.game.NewGameState;
 import view.BoardCell;
 import view.GameView;
-import view.PlayerBoardPanel;
 import view.View;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+
+import javax.swing.JButton;
 
 public class PlayerBoardController extends ControllerCommon implements ActionListener, BoardObserver {
 
@@ -67,7 +69,19 @@ public class PlayerBoardController extends ControllerCommon implements ActionLis
         for (BoardCell c : boardCells) {
             c.setBackground(cellStateToColor(newCells[c.getCellY()][c.getCellX()]));
         }
-
+        
+        if (getModel().getGameState() instanceof NewGameState) {
+        	Player[] players = getModel().getPlayers();
+        	boolean full = true;
+        	for (Player player : players) {
+				if(player.getBoard().getShipCount() < 5) full = false;
+			}
+        	if(full) {
+        		JButton startButton = ((GameView)getView()).getShipPlacementPanel().getStartButton();
+        		startButton.setEnabled(true);
+        	}
+        }
+ 
     }
 
     private Color cellStateToColor(CellState cellState) {

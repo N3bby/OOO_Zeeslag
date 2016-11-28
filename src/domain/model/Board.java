@@ -64,6 +64,10 @@ public class Board implements BoardObservable {
 		notifyBoardChanged();
 
 	}
+	
+	public int getShipCount() {
+		return placedShips.size();
+	}
 
     private boolean checkShipDoesNotOverlap(Ship ship) {
 
