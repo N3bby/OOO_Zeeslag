@@ -31,6 +31,10 @@ public class Board implements BoardObservable {
 	public CellState[][] getCells() {
 		return cells;
 	}
+
+	public CellState[][] getCellsFilteredForOpponent() {
+        
+    }
 	
 	public void applyShip(Ship ship) {
 
