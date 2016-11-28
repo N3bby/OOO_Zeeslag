@@ -30,4 +30,12 @@ public class ModelFacade {
         return player.getBoard().getCells();
     }
 
+    public Player getCurrentTurnPlayer() {
+        return game.getCurrentTurnPlayer();
+    }
+
+    public void nextTurn() {
+        game.nextTurn();
+    }
+
 }
