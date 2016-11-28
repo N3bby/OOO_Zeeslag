@@ -18,6 +18,7 @@ public class ShipPlacementPanel extends JPanel {
 
     private JComboBox<String> availableShipsComboBox;
     private ButtonGroup directionButtonGroup;
+    private JButton startButton;
 
     public ShipPlacementPanel(Controller controller, PlayerBoardPanel playerBoardPanel) {
         this.controller = controller;
@@ -74,6 +75,12 @@ public class ShipPlacementPanel extends JPanel {
         preferredSize.width = 200;
         this.setPreferredSize(preferredSize);
 
+        contentPanel.add(Box.createRigidArea(new Dimension(5, 79)));
+        
+        startButton = new JButton("Start");
+        startButton.setMaximumSize(new Dimension(200, 10));
+        startButton.setEnabled(false);
+        contentPanel.add(startButton);
     }
 
     public String getSelectedShipTemplateName() {

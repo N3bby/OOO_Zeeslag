@@ -8,7 +8,7 @@ import domain.model.Game;
  *
  */
 
-public class PlayingGameState implements GameState {
+public class StartedGameState implements GameState {
 	
 	
 

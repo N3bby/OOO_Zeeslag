@@ -8,7 +8,7 @@ import domain.model.Game;
  *
  */
 
-public class NamingGameState implements GameState {
+public class NewGameState implements GameState {
 
 	@Override
 	public void proceed(Game g) {
