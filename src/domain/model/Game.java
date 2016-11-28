@@ -36,8 +36,12 @@ public class Game {
     }
 
     public void nextTurn() {
-        if(currentTurn == 0) currentTurn = 1;
-        if(currentTurn == 1) currentTurn = 0;
+        if(currentTurn == 0) {
+        	currentTurn = 1;
+        }
+        else if(currentTurn == 1) {
+        	currentTurn = 0;
+        }
         Arrays.stream(players).forEach(p -> p.getBoard().notifyBoardChanged());
     }
 

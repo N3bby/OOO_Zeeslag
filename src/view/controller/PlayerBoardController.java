@@ -3,6 +3,7 @@ package view.controller;
 import domain.model.*;
 import domain.model.state.cell.CellState;
 import domain.model.state.cell.EmptyCellState;
+import domain.model.state.cell.HiddenCellState;
 import domain.model.state.cell.ShipCellState;
 import view.BoardCell;
 import view.GameView;
@@ -55,8 +56,14 @@ public class PlayerBoardController extends ControllerCommon implements ActionLis
 
         GameView view = (GameView) getView();
         List<BoardCell> boardCells = view.getPlayerBoardPanel(board.getPlayer().getName()).getBoardCells();
-
-        CellState[][] newCells = board.getCells();
+        
+        CellState[][] newCells;
+        if (board.getPlayer().equals(getModel().getCurrentTurnPlayer())) {
+        	newCells = board.getCells();
+        }
+        else {
+        	newCells = board.getCellsFilteredForOpponent();
+        }
         for (BoardCell c : boardCells) {
             c.setBackground(cellStateToColor(newCells[c.getCellY()][c.getCellX()]));
         }
@@ -68,6 +75,8 @@ public class PlayerBoardController extends ControllerCommon implements ActionLis
             return Color.WHITE;
         } else if (cellState instanceof ShipCellState) {
             return Color.darkGray;
+        } else if (cellState instanceof HiddenCellState){
+            return Color.LIGHT_GRAY;
         } else {
             return Color.MAGENTA;
         }

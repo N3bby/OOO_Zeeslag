@@ -5,6 +5,7 @@ import java.util.List;
 
 import domain.model.state.cell.CellState;
 import domain.model.state.cell.EmptyCellState;
+import domain.model.state.cell.HiddenCellState;
 import domain.model.state.cell.ShipCellState;
 
 public class Board implements BoardObservable {
@@ -33,7 +34,13 @@ public class Board implements BoardObservable {
 	}
 
 	public CellState[][] getCellsFilteredForOpponent() {
-        
+		CellState[][] hiddenCells = new CellState[WIDTH_HEIGHT][WIDTH_HEIGHT];
+		for (int y = 0; y < WIDTH_HEIGHT; y++) {
+			for (int x = 0; x < WIDTH_HEIGHT; x++) {
+				hiddenCells[y][x] = new HiddenCellState();
+			}
+		}
+		return hiddenCells;
     }
 	
 	public void applyShip(Ship ship) {
