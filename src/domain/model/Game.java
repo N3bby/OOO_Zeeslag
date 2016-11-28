@@ -12,12 +12,15 @@ public class Game {
     private int currentTurn = 0;
 
     public void addPlayer(String name, boolean isAi) {
+        if (!(gameState instanceof NewGameState))
+            throw new IllegalStateException("Cannot add players while not in the NamingGameState");
         Player player = new Player(name);
         if(isAi) player = new AiPlayer(name);
         if (players[0] == null) {
             players[0] = player;
         } else if (players[1] == null) {
             players[1] = player;
+            gameState.proceed(this); //Go to the next state (Ship placement)
         } else {
             throw new IndexOutOfBoundsException("There are aleady 2 players");
         }
