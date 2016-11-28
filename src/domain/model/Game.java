@@ -1,9 +1,12 @@
 package domain.model;
 
+import domain.model.state.game.GameState;
+
 import java.util.Arrays;
 
 public class Game {
 
+	private GameState gameState;
     private Player[] players = new Player[2];
     private int currentTurn = 0;
 

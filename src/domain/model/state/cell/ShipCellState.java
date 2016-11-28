@@ -1,4 +1,4 @@
-package domain.model.state;
+package domain.model.state.cell;
 
 //Deni Askhabov
 
