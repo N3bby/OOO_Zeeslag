@@ -3,6 +3,8 @@ package domain.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import domain.model.observable.board.BoardObservable;
+import domain.model.observable.board.BoardObserver;
 import domain.model.state.cell.CellState;
 import domain.model.state.cell.EmptyCellState;
 import domain.model.state.cell.HiddenCellState;

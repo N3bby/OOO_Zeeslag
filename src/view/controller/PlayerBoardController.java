@@ -1,6 +1,7 @@
 package view.controller;
 
 import domain.model.*;
+import domain.model.observable.board.BoardObserver;
 import domain.model.state.cell.CellState;
 import domain.model.state.cell.EmptyCellState;
 import domain.model.state.cell.HiddenCellState;

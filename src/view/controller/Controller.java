@@ -1,6 +1,7 @@
 package view.controller;
 
 import domain.model.*;
+import domain.model.observable.board.BoardObserver;
 import view.View;
 
 import java.util.ArrayList;
