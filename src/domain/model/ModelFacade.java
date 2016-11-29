@@ -35,7 +35,7 @@ public class ModelFacade {
         return player.getBoard().getCells();
     }
 
-    public Player getCurrentTurnPlayer() {
+    public Player getCurrentPlayer() {
         return game.getCurrentTurnPlayer();
     }
 
@@ -47,4 +47,7 @@ public class ModelFacade {
 		return game.getGameState();
 	}
 
+    public Game getGame() {
+        return game;
+    }
 }
