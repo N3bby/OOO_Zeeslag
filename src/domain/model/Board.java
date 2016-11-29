@@ -12,7 +12,8 @@ import domain.model.state.cell.ShipCellState;
 
 public class Board implements BoardObservable {
 
-    private final int WIDTH_HEIGHT = 10;
+    public static final int WIDTH_HEIGHT = 10;
+    public static final int MAX_SHIP_COUNT = 5;
 
 	private CellState[][] cells;
     private Player player;
@@ -39,7 +40,12 @@ public class Board implements BoardObservable {
 		CellState[][] hiddenCells = new CellState[WIDTH_HEIGHT][WIDTH_HEIGHT];
 		for (int y = 0; y < WIDTH_HEIGHT; y++) {
 			for (int x = 0; x < WIDTH_HEIGHT; x++) {
-				hiddenCells[y][x] = new HiddenCellState();
+                if(!cells[y][x].isVisibleByOpponent()) {
+                    hiddenCells[y][x] = new HiddenCellState();
+                } else {
+                    hiddenCells[y][x] = cells[y][x];
+                }
+
 			}
 		}
 		return hiddenCells;
@@ -127,7 +133,7 @@ public class Board implements BoardObservable {
 
     private boolean checkShipCountValid(Ship ship) {
 
-        if(placedShips.size() >= 5) return false;
+        if(placedShips.size() >= MAX_SHIP_COUNT) return false;
 
         ArrayList<Ship> newPlacedShips = new ArrayList<>(placedShips);
         newPlacedShips.add(ship);
@@ -141,12 +147,12 @@ public class Board implements BoardObservable {
     }
 
     @Override
-	public void addObserver(BoardObserver o) {
+	public void addBoardObserver(BoardObserver o) {
 		boardObservers.add(o);
 	}
 
 	@Override
-	public void removeObserver(BoardObserver o) {
+	public void removeBoardObserver(BoardObserver o) {
 		boardObservers.remove(o);
 	}
 
