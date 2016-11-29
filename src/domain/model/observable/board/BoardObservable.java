@@ -2,9 +2,9 @@ package domain.model.observable.board;
 
 public interface BoardObservable {
 	
-	void addObserver(BoardObserver o);
+	void addBoardObserver(BoardObserver o);
 	
-	void removeObserver(BoardObserver o);
+	void removeBoardObserver(BoardObserver o);
 	
 	void notifyBoardChanged();
 
