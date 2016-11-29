@@ -88,7 +88,7 @@ View</text>
           </attributes>
           <methods id="27" justification="0" size="4" underlined="false">
             <text># getController ( ) : Controller
-+ setController (gameController : Controller ) : void
++ setController (controller : Controller ) : void
 + start ( ) : void (abstract)
 + showException ( e : Exception ) : void (abstract)</text>
           </methods>
@@ -190,7 +190,7 @@ ControllerCommon</text>
           <borderColor reference="35"/>
           <textColor reference="35"/>
           <name id="57" justification="1" size="3" underlined="false">
-            <text>gameController</text>
+            <text>controller</text>
           </name>
           <content id="58" justification="1" size="4" underlined="false">
             <text></text>
@@ -212,7 +212,7 @@ ControllerCommon</text>
             <text></text>
           </attributes>
           <methods id="65" justification="0" size="4" underlined="false">
-            <text>+ PlayerBoardPanel ( gameController : Controller , d : Dimension )
+            <text>+ PlayerBoardPanel ( controller : Controller , d : Dimension )
 + getPlayerName ( ) : String
 + setPlayerName ( name : String ) : void
 + getBoardCells( ) : List&lt;BoardCell&gt;
@@ -235,7 +235,7 @@ ControllerCommon</text>
             <text></text>
           </attributes>
           <methods id="72" justification="0" size="4" underlined="false">
-            <text>ShipPlacementPanel ( gameController : Controller, p : PlayerBoardPanel )
+            <text>ShipPlacementPanel ( controller : Controller, p : PlayerBoardPanel )
 + getSelectedShipTemplateName ( ) : String
 + getSelectedDirectionName ( ) : String</text>
           </methods>
@@ -981,7 +981,7 @@ GameStateObservable</text>
       <revision>1</revision>
       <bentStyle name="STRAIGHT"/>
       <startLabel></startLabel>
-      <middleLabel>- gameController</middleLabel>
+      <middleLabel>- controller</middleLabel>
       <endLabel>1</endLabel>
     </AssociationEdge>
     <AssociationEdge id="329">

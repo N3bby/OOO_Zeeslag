@@ -1,17 +1,17 @@
 package view;
 
-import view.controller.GameController;
+import view.controller.ControllerCommon;
 
 public abstract class View {
 
-    private GameController gameController;
+    private ControllerCommon controller;
 
-    protected GameController getGameController() {
-        return gameController;
+    protected ControllerCommon getController() {
+        return controller;
     }
 
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
+    public void setController(ControllerCommon controller) {
+        this.controller = controller;
     }
 
     public abstract void start();
