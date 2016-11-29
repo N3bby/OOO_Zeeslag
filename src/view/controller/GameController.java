@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Controller extends ControllerCommon {
+public class GameController extends ControllerCommon {
 
-    public Controller(View view, ModelFacade model) {
+    public GameController(View view, ModelFacade model) {
         super(view, model);
     }
 

@@ -1,7 +1,6 @@
 package view;
 
-import view.controller.Controller;
-import view.controller.PlayerBoardController;
+import view.controller.GameController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,7 +11,7 @@ import java.util.Map;
 
 public class ShipPlacementPanel extends JPanel {
 
-    private Controller controller;
+    private GameController gameController;
     private PlayerBoardPanel playerBoardPanel;
     private Map<String, String> availableShips;
 
@@ -20,8 +19,8 @@ public class ShipPlacementPanel extends JPanel {
     private ButtonGroup directionButtonGroup;
     private JButton startButton;
 
-    public ShipPlacementPanel(Controller controller, PlayerBoardPanel playerBoardPanel) {
-        this.controller = controller;
+    public ShipPlacementPanel(GameController gameController, PlayerBoardPanel playerBoardPanel) {
+        this.gameController = gameController;
         this.playerBoardPanel = playerBoardPanel;
         init();
     }
@@ -44,7 +43,7 @@ public class ShipPlacementPanel extends JPanel {
 
         contentPanel.add(Box.createRigidArea(new Dimension(5, 5))); //Spacing
 
-        availableShips = controller.getTemplateShipMap();
+        availableShips = gameController.getTemplateShipMap();
         availableShipsComboBox =
                 new JComboBox<>(availableShips.values().toArray(new String[availableShips.size()]));
 
@@ -61,7 +60,7 @@ public class ShipPlacementPanel extends JPanel {
 
         contentPanel.add(Box.createRigidArea(new Dimension(5, 5))); //Spacing
 
-        String[] shipDirections = controller.getShipDirections();
+        String[] shipDirections = gameController.getShipDirections();
         directionButtonGroup = new ButtonGroup();
         for (String direction : shipDirections) {
             JRadioButton radioButton = new JRadioButton(direction);

@@ -27,8 +27,8 @@ public class GameView extends View {
         String p2Name = "Computer";
 
         //Add players to game
-        getController().addPlayer(p1Name, false);
-        getController().addPlayer(p2Name, true);
+        getGameController().addPlayer(p1Name, false);
+        getGameController().addPlayer(p2Name, true);
 
         //Set board names
         p1Board.setPlayerName(p1Name);
@@ -42,7 +42,7 @@ public class GameView extends View {
         //Set it so p1 can place stuff
         p1Board.getBoardController().setState(PlayerBoardController.PlayerBoardState.PLACE);
 
-        getController().placeRandomShipsIfAi(p2Name);
+        getGameController().placeRandomShipsIfAi(p2Name);
 
     }
 
@@ -79,8 +79,8 @@ public class GameView extends View {
         //Add content
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
 
-        p1Board = new PlayerBoardPanel(getController(), new Dimension(300, 300));
-        p2Board = new PlayerBoardPanel(getController(), new Dimension(300, 300));
+        p1Board = new PlayerBoardPanel(getGameController(), new Dimension(300, 300));
+        p2Board = new PlayerBoardPanel(getGameController(), new Dimension(300, 300));
         panel.add(p1Board);
         panel.add(p2Board);
 
@@ -90,7 +90,7 @@ public class GameView extends View {
 
     private void initShipPlacementPanel(PlayerBoardPanel playerBoardPanel) {
 
-        shipPlacementPanel = new ShipPlacementPanel(getController(), playerBoardPanel);
+        shipPlacementPanel = new ShipPlacementPanel(getGameController(), playerBoardPanel);
         frame.add(shipPlacementPanel, BorderLayout.WEST);
         packAndAlign();
 

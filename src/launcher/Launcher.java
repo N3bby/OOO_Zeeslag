@@ -1,9 +1,8 @@
 package launcher;
 
-import domain.model.Game;
 import domain.model.ModelFacade;
 import view.GameView;
-import view.controller.Controller;
+import view.controller.GameController;
 
 public class Launcher {
 
@@ -11,9 +10,9 @@ public class Launcher {
 
         GameView gameView = new GameView();
         ModelFacade modelFacade = new ModelFacade();
-        Controller controller = new Controller(gameView, modelFacade);
-        gameView.setController(controller);
-        controller.startView();
+        GameController gameController = new GameController(gameView, modelFacade);
+        gameView.setGameController(gameController);
+        gameController.startView();
 
     }
 

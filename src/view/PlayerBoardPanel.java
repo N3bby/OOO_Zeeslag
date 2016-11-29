@@ -1,6 +1,6 @@
 package view;
 
-import view.controller.Controller;
+import view.controller.GameController;
 import view.controller.PlayerBoardController;
 
 import javax.swing.*;
@@ -14,11 +14,11 @@ public class PlayerBoardPanel extends JPanel {
     private List<BoardCell> boardCells = new ArrayList<>();
     private PlayerBoardController boardController;
 
-    public PlayerBoardPanel(Controller controller, Dimension buttonPanelSize) {
-        init(controller, buttonPanelSize);
+    public PlayerBoardPanel(GameController gameController, Dimension buttonPanelSize) {
+        init(gameController, buttonPanelSize);
     }
 
-    private void init(Controller controller, Dimension buttonPanelSize) {
+    private void init(GameController gameController, Dimension buttonPanelSize) {
 
         this.setLayout(new BorderLayout(0,5));
 
@@ -30,7 +30,7 @@ public class PlayerBoardPanel extends JPanel {
         buttonPanel.setPreferredSize(buttonPanelSize);
         buttonPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        boardController = new PlayerBoardController(controller.getView(), controller.getModel());
+        boardController = new PlayerBoardController(gameController.getView(), gameController.getModel());
 
         //Add all the buttons
         for (int y = 0; y < 10; y++) {
