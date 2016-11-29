@@ -1,52 +1,32 @@
 package view;
 
-import view.controller.PlayerBoardController;
+import domain.model.observable.gamestate.GameStateObserver;
+import domain.model.state.game.GameState;
+import view.controller.GameController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
-public class GameView extends View {
+public class GameView implements GameStateObserver {
 
     private final String CONST_TITLE = "Zeeslag";
 
     private JFrame frame;
 
-    private PlayerBoardPanel p1Board;
-    private PlayerBoardPanel p2Board;
+    private List<PlayerBoardPanel> playerBoardPanels = new ArrayList<>();
 
     private ShipPlacementPanel shipPlacementPanel;
+    private GameController gameController;
 
-    @Override
     public void start() {
 
         initJFrame();
 
-        //Get and set player names
-        String p1Name = promptPlayerName(frame);
-        String p2Name = "Computer";
-
-        //Add players to game
-        getController().addPlayer(p1Name, false);
-        getController().addPlayer(p2Name, true);
-
-        //Set board names
-        p1Board.setPlayerName(p1Name);
-        p2Board.setPlayerName(p2Name);
-
-        JOptionPane.showMessageDialog(frame, "Players:\n\u2022    " + p1Name + "\n\u2022    " + p2Name);
-
-        //Add ship placement panel
-        initShipPlacementPanel(p1Board);
-
-        //Set it so p1 can place stuff
-        p1Board.getBoardController().setState(PlayerBoardController.PlayerBoardState.PLACE);
-
-        getController().placeRandomShipsIfAi(p2Name);
-
     }
 
-    @Override
     public void showException(Exception e) {
 
         JOptionPane.showMessageDialog(frame, e.toString());
@@ -65,41 +45,33 @@ public class GameView extends View {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        //Add content
+        //Add player board panels
         initPlayerBoardPanels();
-        packAndAlign();
 
-        //Display frame
+        //Pack and display frame
+        packAndAlign();
         frame.setVisible(true);
 
     }
 
     private void initPlayerBoardPanels() {
 
-        //Add content
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
 
-        p1Board = new PlayerBoardPanel(getController(), new Dimension(300, 300));
-        p2Board = new PlayerBoardPanel(getController(), new Dimension(300, 300));
-        panel.add(p1Board);
-        panel.add(p2Board);
+        for (int i = 0; i < 2; i++) {
+            PlayerBoardPanel playerBoardPanel = new PlayerBoardPanel(getGameController(), new Dimension(300, 300));
+            playerBoardPanels.add(playerBoardPanel);
+            panel.add(playerBoardPanel);
+        }
 
         frame.add(panel, BorderLayout.CENTER);
 
     }
 
-    private void initShipPlacementPanel(PlayerBoardPanel playerBoardPanel) {
-
-        shipPlacementPanel = new ShipPlacementPanel(getController(), playerBoardPanel);
-        frame.add(shipPlacementPanel, BorderLayout.WEST);
-        packAndAlign();
-
-    }
-
-    private String promptPlayerName(JFrame frame) {
+    private String promptPlayerName(JFrame frame, int playerNumber) {
         String name = null;
         while (name == null || name.isEmpty()) {
-            name = JOptionPane.showInputDialog(frame, "Enter your name (p1)");
+            name = JOptionPane.showInputDialog(frame, "Enter your name (player " + playerNumber + ")");
             if (name == null || name.isEmpty()) {
                 JOptionPane.showMessageDialog(frame, "Name cannot be empty!");
             }
@@ -119,13 +91,71 @@ public class GameView extends View {
     }
 
     public PlayerBoardPanel getPlayerBoardPanel(String playerName) {
-        if(p1Board.getPlayerName().equals(playerName)) return p1Board;
-        if(p2Board.getPlayerName().equals(playerName)) return p2Board;
-        throw new RuntimeException("No player board with name '" + playerName + "' found!");
+
+        return playerBoardPanels.stream()
+                .filter(p -> p.getPlayerName().equals(playerName))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No player board with player name '" + playerName + "' found!"));
+
     }
 
     public ShipPlacementPanel getShipPlacementPanel() {
         return shipPlacementPanel;
+    }
+
+    public GameController getGameController() {
+        return gameController;
+    }
+
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
+    }
+
+    @Override
+    public void gameStateChanged(GameState gameState) {
+        gameController.handleGameStateChanged(gameState);
+    }
+
+    public List<String> acquirePlayerNames(int amountOfPlayers) {
+        List<String> playerNames = new ArrayList<>();
+        for (int i = 0; i < amountOfPlayers; i++) playerNames.add(promptPlayerName(frame, i));
+        return playerNames;
+    }
+
+    public void showPlayerOverView() {
+
+        String msg = "Players:";
+        for (String playerName : gameController.getPlayerNames()) {
+            msg += "\n\u2022    " + playerName;
+        }
+        JOptionPane.showMessageDialog(frame, msg);
+
+    }
+
+    public void openPlacementPanel() {
+
+        shipPlacementPanel = new ShipPlacementPanel(getGameController());
+        frame.add(shipPlacementPanel, BorderLayout.WEST);
+        packAndAlign();
+
+    }
+
+    public void closePlacementPanel() {
+
+        frame.remove(shipPlacementPanel);
+        packAndAlign();
+
+    }
+
+    public void setPlayerBoardPanelNames(List<String> playerNames) {
+
+        if (playerNames.size() != playerBoardPanels.size())
+            throw new RuntimeException("Player name count doesn't match available board count (" + playerBoardPanels.size() + ")");
+
+        for (int i = 0; i < playerBoardPanels.size(); i++) {
+            playerBoardPanels.get(i).setPlayerName(playerNames.get(i));
+        }
+
     }
 
 }

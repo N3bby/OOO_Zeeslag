@@ -1,38 +1,44 @@
 package view.controller;
 
 import domain.model.*;
-import domain.model.observable.board.BoardObserver;
 import domain.model.state.cell.CellState;
 import domain.model.state.cell.EmptyCellState;
 import domain.model.state.cell.HiddenCellState;
 import domain.model.state.cell.ShipCellState;
+import domain.model.state.game.GameState;
 import domain.model.state.game.NewGameState;
+import domain.model.state.game.StartedGameState;
 import view.BoardCell;
 import view.GameView;
-import view.View;
+import view.PlayerBoardPanel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
+import java.util.Arrays;
 
-import javax.swing.JButton;
+public class PlayerBoardController extends ControllerCommon implements ActionListener {
 
-public class PlayerBoardController extends ControllerCommon implements ActionListener, BoardObserver {
 
-    private PlayerBoardState state = PlayerBoardState.NONE;
-
-    public PlayerBoardController(View view, ModelFacade model) {
-        super(view, model);
+    public PlayerBoardController(GameView game, ModelFacade model) {
+        super(game, model);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        switch (state) {
-            case PLACE:
+        String playerName = ((BoardCell)e.getSource()).getPlayerBoardPanel().getPlayerName();
+
+        if(getModel().getCurrentPlayer().getName().equals(playerName)) { //Only do something if it is this player's turn
+
+            GameState gameState = getModel().getGameState();
+
+            if (gameState instanceof NewGameState) {
                 processPlacement(e);
-                break;
+            } else if (gameState instanceof StartedGameState) {
+                processAttack(e);
+            }
+
         }
 
     }
@@ -40,51 +46,71 @@ public class PlayerBoardController extends ControllerCommon implements ActionLis
     private void processPlacement(ActionEvent e) {
 
         BoardCell boardCell = (BoardCell) e.getSource();
-        GameView view = (GameView) getView();
+        GameView view = (GameView) getGameView();
 
+        //Get information and create required objects
         ShipTemplate template = ShipTemplate.valueOf(view.getShipPlacementPanel().getSelectedShipTemplateName());
         Orientation orientation = Orientation.valueOf(view.getShipPlacementPanel().getSelectedDirectionName().toUpperCase());
 
         Ship ship = getModel().getShip(template, boardCell.getCellX(), boardCell.getCellY(), orientation);
         Player player = getModel().getPlayer(boardCell.getPlayerBoardPanel().getPlayerName());
 
+        //Apply the ship. Exceptions are ignored (trying to place more than 5 ships or in an invalid location for example)
         try {
             getModel().applyShip(ship, player);
         } catch (Exception ignored) { }
 
+        //Check whether to enable the start button (both players have placed their ships)
+        boolean canStart = Arrays.stream(getModel().getPlayers())
+                .allMatch(p -> p.getBoard().getShipCount() >= 5);
+
+
+        if(canStart) { //If we can start, enable the start button
+
+            getGameView().getShipPlacementPanel().getStartButton().setEnabled(true);
+
+        } else {
+
+            //Else turn switches to other player
+            if(player.getBoard().getShipCount() == Board.MAX_SHIP_COUNT) {
+                getModel().nextTurn();
+            }
+
+        }
+
+
+
     }
 
-    @Override
-    public void boardChanged(Board board) {
+    private void processAttack(ActionEvent e) {
+        //TODO implement attack behaviour (ui)
+    }
 
-        GameView view = (GameView) getView();
-        List<BoardCell> boardCells = view.getPlayerBoardPanel(board.getPlayer().getName()).getBoardCells();
-        
+    //Merely a delegation method
+    public void processBoardChanged(Board board) {
+
+        GameView view = (GameView) getGameView();
+
+        //Get newCells based on whether it's this player's turn or not
         CellState[][] newCells;
-        if (board.getPlayer().equals(getModel().getCurrentTurnPlayer())) {
+        if (board.getPlayer().equals(getModel().getCurrentPlayer())) {
         	newCells = board.getCells();
         }
         else {
         	newCells = board.getCellsFilteredForOpponent();
         }
-        for (BoardCell c : boardCells) {
-            c.setBackground(cellStateToColor(newCells[c.getCellY()][c.getCellX()]));
+
+        //Get player board panel and set the colors correctly
+        PlayerBoardPanel playerBoardPanel = getGameView().getPlayerBoardPanel(board.getPlayer().getName());
+        for(int y = 0; y < board.WIDTH_HEIGHT; y++) {
+            for (int x = 0; x < board.WIDTH_HEIGHT; x++) {
+                playerBoardPanel.setBoardCellColor(x, y, cellStateToColor(newCells[y][x]));
+            }
         }
-        
-        if (getModel().getGameState() instanceof NewGameState) {
-        	Player[] players = getModel().getPlayers();
-        	boolean full = true;
-        	for (Player player : players) {
-				if(player.getBoard().getShipCount() < 5) full = false;
-			}
-        	if(full) {
-        		JButton startButton = ((GameView)getView()).getShipPlacementPanel().getStartButton();
-        		startButton.setEnabled(true);
-        	}
-        }
- 
+
     }
 
+    //Translates CellState to matching Color
     private Color cellStateToColor(CellState cellState) {
         if(cellState instanceof EmptyCellState) {
             return Color.WHITE;
@@ -97,17 +123,9 @@ public class PlayerBoardController extends ControllerCommon implements ActionLis
         }
     }
 
-    public void addToBoardObservable(String playerName) {
-        getModel().getPlayer(playerName).getBoard().addObserver(this);
-    }
-
-    public void setState(PlayerBoardState state) {
-        this.state = state;
-    }
-
-    public enum PlayerBoardState {
-        NONE,
-        PLACE
+    //Adds the given PlayerBoardPanel to the observer list of the correct board
+    public void addBoardPanelAsDomainBoardObserver(PlayerBoardPanel playerBoardPanel) {
+        getModel().getPlayer(playerBoardPanel.getPlayerName()).getBoard().addBoardObserver(playerBoardPanel);
     }
 
 }

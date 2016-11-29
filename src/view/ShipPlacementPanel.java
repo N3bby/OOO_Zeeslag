@@ -1,6 +1,7 @@
 package view;
 
 import view.controller.GameController;
+import view.controller.StartGameButtonListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,16 +13,14 @@ import java.util.Map;
 public class ShipPlacementPanel extends JPanel {
 
     private GameController gameController;
-    private PlayerBoardPanel playerBoardPanel;
     private Map<String, String> availableShips;
 
     private JComboBox<String> availableShipsComboBox;
     private ButtonGroup directionButtonGroup;
     private JButton startButton;
 
-    public ShipPlacementPanel(GameController gameController, PlayerBoardPanel playerBoardPanel) {
+    public ShipPlacementPanel(GameController gameController) {
         this.gameController = gameController;
-        this.playerBoardPanel = playerBoardPanel;
         init();
     }
 
@@ -77,6 +76,7 @@ public class ShipPlacementPanel extends JPanel {
         contentPanel.add(Box.createRigidArea(new Dimension(5, 79)));
         
         startButton = new JButton("Start");
+        startButton.addActionListener(new StartGameButtonListener(gameController));
         startButton.setMaximumSize(new Dimension(200, 10));
         startButton.setEnabled(false);
         contentPanel.add(startButton);

@@ -1,20 +1,24 @@
 package view.controller;
 
 import domain.model.ModelFacade;
-import view.View;
+import view.GameView;
 
 public abstract class ControllerCommon {
 
-    private View view;
+    private GameView gameView;
     private ModelFacade model;
 
-    public ControllerCommon(View view, ModelFacade model) {
-        this.view = view;
+    public ControllerCommon(ControllerCommon controllerCommon) {
+        this(controllerCommon.getGameView(), controllerCommon.getModel());
+    }
+
+    public ControllerCommon(GameView gameView, ModelFacade model) {
+        this.gameView = gameView;
         this.model = model;
     }
 
-    public View getView() {
-        return view;
+    public GameView getGameView() {
+        return gameView;
     }
 
     public ModelFacade getModel() {
