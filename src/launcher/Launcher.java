@@ -11,8 +11,8 @@ public class Launcher {
         GameView gameView = new GameView();
         ModelFacade modelFacade = new ModelFacade();
         GameController gameController = new GameController(gameView, modelFacade);
-        gameView.setController(gameController);
-        gameController.startView();
+        gameView.setGameController(gameController);
+        gameController.startGameView();
 
     }
 
