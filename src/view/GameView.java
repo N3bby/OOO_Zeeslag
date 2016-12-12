@@ -158,4 +158,10 @@ public class GameView implements GameStateObserver {
 
     }
 
+	public void showScoreDialog(String name, int score) {
+		
+		JOptionPane.showMessageDialog(frame, "Game over!\n" + name + " won with " + score + " points..."); 
+		
+	}
+
 }

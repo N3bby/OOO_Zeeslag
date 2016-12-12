@@ -10,6 +10,7 @@ import domain.model.state.cell.DamagedCellState;
 import domain.model.state.cell.DestroyedCellState;
 import domain.model.state.cell.EmptyCellState;
 import domain.model.state.cell.HiddenCellState;
+import domain.model.state.cell.MissedCellState;
 import domain.model.state.cell.ShipCellState;
 
 public class Board implements BoardObservable {
@@ -17,6 +18,7 @@ public class Board implements BoardObservable {
     public static final int WIDTH_HEIGHT = 10;
     public static final int MAX_SHIP_COUNT = 5;
 
+    private int hits = 0;
 	private CellState[][] cells;
     private Player player;
 
@@ -163,10 +165,26 @@ public class Board implements BoardObservable {
                 }
         	}
         }
+        if(!(cells[y][x] instanceof MissedCellState)) hits++;
+        boolean notFinished = false;
+        for (int x2 = 0 ; x2 < WIDTH_HEIGHT; x2++) {
+        	for (int y2 = 0 ; y2 < WIDTH_HEIGHT; y2++) {
+            	if(cells[y2][x2] instanceof ShipCellState) {
+            		notFinished = true;
+            	}
+            }
+        }
         notifyBoardChanged();
+        if(!notFinished) {
+        	getPlayer().getGame().getGameState().proceed(getPlayer().getGame());
+        }
+	}
+    
+    public int getHits() {
+		return hits;
 	}
 
-    @Override
+	@Override
 	public void addBoardObserver(BoardObserver o) {
 		boardObservers.add(o);
 	}

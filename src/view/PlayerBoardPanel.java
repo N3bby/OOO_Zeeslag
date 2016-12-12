@@ -13,8 +13,11 @@ import java.util.List;
 public class PlayerBoardPanel extends JPanel implements BoardObserver {
 
     private JLabel lblPlayerName;
+    private String playerName;
+    
     private List<BoardCell> boardCells = new ArrayList<>();
     private PlayerBoardController boardController;
+	private GameController gameController;
 
     public PlayerBoardPanel(GameController gameController, Dimension buttonPanelSize) {
         init(gameController, buttonPanelSize);
@@ -22,6 +25,7 @@ public class PlayerBoardPanel extends JPanel implements BoardObserver {
 
     private void init(GameController gameController, Dimension buttonPanelSize) {
 
+    	this.gameController = gameController;
         this.setLayout(new BorderLayout(0, 5));
 
         //Add name to main panel
@@ -55,12 +59,17 @@ public class PlayerBoardPanel extends JPanel implements BoardObserver {
 
     //Sets the board's player and adds this board as an observer in the domainModel
     public void setPlayerName(String name) {
-        lblPlayerName.setText(name);
+    	this.playerName = name;
+    	updateNameLabel(name, gameController.getScore(name));
         boardController.addBoardPanelAsDomainBoardObserver(this);
+    }
+    
+    public void updateNameLabel(String name, int score) {
+    	lblPlayerName.setText(playerName + " (" + score + ")");
     }
 
     public String getPlayerName() {
-        return lblPlayerName.getText();
+        return playerName;
     }
 
     //Sets the color of a cell with given coordinates
@@ -77,6 +86,7 @@ public class PlayerBoardPanel extends JPanel implements BoardObserver {
 
     @Override
     public void boardChanged(Board board) {
+    	updateNameLabel(playerName, gameController.getScore(playerName));
         boardController.processBoardChanged(board);
     }
 

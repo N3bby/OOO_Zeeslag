@@ -1,6 +1,7 @@
 package view.controller;
 
 import domain.model.*;
+import domain.model.state.game.FinishedGameState;
 import domain.model.state.game.GameState;
 import domain.model.state.game.NewGameState;
 import domain.model.state.game.StartedGameState;
@@ -67,11 +68,23 @@ public class GameController extends ControllerCommon {
             processNewGameState();
         } else if (gameState instanceof StartedGameState) {
             processStartedGameState();
+        } else if(gameState instanceof FinishedGameState) {
+        	processFinishedGameState();
         }
 
     }
 
-    private void processNewGameState() {
+    private void processFinishedGameState() {
+    	
+    	Player p = getModel().getPlayers()[0];
+    	if(getModel().getPlayers()[1].getScore() > p.getScore()) {
+    		p = getModel().getPlayers()[1];
+    	}
+    	
+		getGameView().showScoreDialog(p.getName(), p.getScore());
+	}
+
+	private void processNewGameState() {
 
         //Get player names and add them to the game
         List<String> playerNames = getGameView().acquirePlayerNames(PLAYS_AGAINST_AI ? 1 : 2);
@@ -110,4 +123,8 @@ public class GameController extends ControllerCommon {
                 .collect(Collectors.toList());
 
     }
+
+	public int getScore(String player) {
+		return getModel().getPlayer(player).getScore();
+	}
 }

@@ -22,9 +22,9 @@ public class Game implements GameStateObservable, TurnObservable {
     public void addPlayer(String name, boolean isAi) {
         if (!(gameState instanceof NewGameState))
             throw new IllegalStateException("Cannot add players while not in the NamingGameState");
-        Player player = new Player(name);
+        Player player = new Player(this, name);
         if(isAi) {
-            player = new AiPlayer(name);
+            player = new AiPlayer(this, name);
             addTurnObserver((AiPlayer)player);
         }
         if (players[0] == null) {

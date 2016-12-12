@@ -4,10 +4,12 @@ public class Player {
 
 	private String name;
 	private Board board;
+	private Game game;
 	
-	public Player(String name) {
+	public Player(Game game, String name) {
 		if(name.equals(null) || name.trim().isEmpty()) throw new IllegalArgumentException("Name is invalid");
 		this.name = name;
+		this.game = game;
 		board = new Board(this);
 	}
 	
@@ -17,6 +19,14 @@ public class Player {
 	
 	public Board getBoard() {
 		return board;
+	}
+	
+	public Game getGame() {
+		return game;
+	}
+	
+	public int getScore() {
+		return 19 - board.getHits();
 	}
 
 	@Override

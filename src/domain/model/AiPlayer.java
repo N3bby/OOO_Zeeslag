@@ -15,8 +15,8 @@ public class AiPlayer extends Player implements TurnObserver {
 
 	private AttackStrategy attackStrategy; 
 	
-    public AiPlayer(String name) {
-        super(name);
+    public AiPlayer(Game game, String name) {
+        super(game, name);
         String method = GlobalProperties.getInstance().getProperty("method");
         setAttackStrategy(new AttackStrategyFactory().createAttackStrategy(method));
     }
