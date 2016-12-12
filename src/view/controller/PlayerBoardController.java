@@ -98,7 +98,7 @@ public class PlayerBoardController extends ControllerCommon implements ActionLis
 		Board board = getModel().getPlayer(playerName).getBoard();
 		try {
 			board.fire(boardCell.getCellX(), boardCell.getCellY());
-			// getModel().nextTurn();
+			getModel().nextTurn();
 		} catch (Exception ignored) {
 
 		}

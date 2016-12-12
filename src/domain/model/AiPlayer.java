@@ -1,16 +1,24 @@
 package domain.model;
 
+import domain.model.factory.strategy.AttackStrategyFactory;
 import domain.model.observable.turn.TurnObserver;
 import domain.model.state.game.GameState;
 import domain.model.state.game.NewGameState;
 import domain.model.state.game.StartedGameState;
+import domain.model.strategy.ai.AttackStrategy;
+import domain.model.strategy.ai.RandomAttackStrategy;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class AiPlayer extends Player implements TurnObserver {
 
+	private AttackStrategy attackStrategy; 
+	
     public AiPlayer(String name) {
         super(name);
+        String method = GlobalProperties.getInstance().getProperty("method");
+        setAttackStrategy(new AttackStrategyFactory().createAttackStrategy(method));
     }
 
     public void placeRandomShips() {
@@ -41,17 +49,10 @@ public class AiPlayer extends Player implements TurnObserver {
         }
 
     }
-
-    @Override
-    public void turnChanged(Game game) {
-
-        if (game.getGameState() instanceof NewGameState) {
-            processNewGameStateTurnChanged(game);
-        } else if (game.getGameState() instanceof StartedGameState) {
-            processStartedGameStateTurnChanged(game);
-        }
-
-    }
+    
+    public void setAttackStrategy(AttackStrategy attackStrategy) {
+		this.attackStrategy = attackStrategy;
+	}
 
     private void processNewGameStateTurnChanged(Game game) {
 
@@ -61,6 +62,28 @@ public class AiPlayer extends Player implements TurnObserver {
     }
 
     private void processStartedGameStateTurnChanged(Game game) {
+    	Player me = this;
+    	Board opponentBoard = Arrays.stream(game.getPlayers())
+    		.filter(player -> player != me)
+    		.findFirst()
+    		.get()
+    		.getBoard();
+    	attackStrategy.attack(opponentBoard);
+    	game.nextTurn();
+    }
+    
+    @Override
+    public void turnChanged(Game game) {
+
+    	if(game.getCurrentTurnPlayer() == this) {
+    	
+	        if (game.getGameState() instanceof NewGameState) {
+	            processNewGameStateTurnChanged(game);
+	        } else if (game.getGameState() instanceof StartedGameState) {
+	            processStartedGameStateTurnChanged(game);
+	        }
+	        
+    	}
 
     }
 
