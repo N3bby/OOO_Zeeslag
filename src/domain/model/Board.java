@@ -6,6 +6,8 @@ import java.util.List;
 import domain.model.observable.board.BoardObservable;
 import domain.model.observable.board.BoardObserver;
 import domain.model.state.cell.CellState;
+import domain.model.state.cell.DamagedCellState;
+import domain.model.state.cell.DestroyedCellState;
 import domain.model.state.cell.EmptyCellState;
 import domain.model.state.cell.HiddenCellState;
 import domain.model.state.cell.ShipCellState;
@@ -145,6 +147,24 @@ public class Board implements BoardObservable {
     public Player getPlayer() {
         return player;
     }
+    
+    public void fire(int x, int y) {
+        cells[y][x] = cells[y][x].hit();
+        for (Ship ship : placedShips) {
+        	boolean isDestroyed = true;
+        	for (Cell cell : ship.getCells()) {
+            	if(!(cells[cell.getY()][cell.getX()] instanceof DamagedCellState)) {
+            		isDestroyed = false;
+            	}
+            }
+        	if(isDestroyed) {
+        		for (Cell cell : ship.getCells()) {
+                	cells[cell.getY()][cell.getX()] = new DestroyedCellState();
+                }
+        	}
+        }
+        notifyBoardChanged();
+	}
 
     @Override
 	public void addBoardObserver(BoardObserver o) {

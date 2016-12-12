@@ -3,8 +3,8 @@ package domain.model.state.cell;
 public class ShipCellState implements CellState{
 
 	@Override
-	public void hit() {
-		
+	public CellState hit() {
+		return new DamagedCellState();
 	}
 
     @Override

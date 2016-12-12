@@ -1,5 +1,8 @@
 package domain.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Ship {
 
     private ShipTemplate shipTemplate;
@@ -42,6 +45,19 @@ public class Ship {
 	public void setY(int y) {
 		if(y < 0 || y > 10) throw new IllegalArgumentException();
 		this.y = y;
+	}
+	
+	public List<Cell> getCells() {
+		List<Cell> cells = new ArrayList<Cell>();
+		for (int i = 0; i<shipTemplate.getNbrOfCells();i++) {
+			if(orientation == Orientation.VERTICAL) {
+				cells.add(new Cell(x, y+i));
+			}
+			else if(orientation == Orientation.HORIZONTAL) {
+				cells.add(new Cell(x+i, y));
+			}
+		}
+		return cells;
 	}
 
 	public Orientation getOrientation() {

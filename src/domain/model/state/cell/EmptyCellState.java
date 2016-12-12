@@ -3,8 +3,8 @@ package domain.model.state.cell;
 public class EmptyCellState implements CellState {
 
 	@Override
-	public void hit() {
-		
+	public CellState hit() {
+		return new MissedCellState();
 	}
 
     @Override
