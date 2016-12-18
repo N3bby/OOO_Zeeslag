@@ -46,6 +46,10 @@ public class ModelFacade {
 	public GameState getGameState() {
 		return game.getGameState();
 	}
+	
+	public void setGame(Game game) {
+		this.game = game;
+    }
 
     public Game getGame() {
         return game;
