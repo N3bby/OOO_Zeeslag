@@ -75,6 +75,8 @@ public class GameController extends ControllerCommon {
     }
 
     private void processFinishedGameState() {
+
+		System.out.println(getModel().getPlayers()[0].getScore() + " " + getModel().getPlayers()[1].getScore());
     	
     	Player p = getModel().getPlayers()[0];
     	if(getModel().getPlayers()[1].getScore() > p.getScore()) {
